@@ -1,5 +1,6 @@
 import os
 import requests
+import pandas as pd
 import streamlit as st
 
 API_URL = os.getenv("API_URL", "http://api:8080")
@@ -47,13 +48,8 @@ except requests.RequestException as e:
 st.header("Registered Nodes")
 
 if nodes_data:
-    for n in nodes_data:
-        st.write(
-            f"Node name: {n.get('name','')} | "
-            f"host: {n.get('host','')} | "
-            f"port: {n.get('port','')} | "
-            f"status: {n.get('status','')}"
-        )
+    df = pd.DataFrame(nodes_data)
+    st.table(df)
 else:
     st.write("No nodes registered yet.")
 
